@@ -1,6 +1,6 @@
 async function fetchGuests() {
-  const response = await fetch("https://localhost:8080/guests");
-  const jokes = await response.json();
+  const response = await fetch("http://localhost:8080/guests");
+  const guests = await response.json();
   console.log(guests);
 }
 
