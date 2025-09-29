@@ -33,13 +33,16 @@ form.addEventListener("submit", async function (event) {
 
   console.log(data);
 
-  const responseFromAPI = await fetch("http://localhost:8080/guests", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  const responseFromAPI = await fetch(
+    "https://dashboard.render.com/web/srv-d3cq320gjchc739duu40",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   const result = await responseFromAPI.json();
   console.log(result);
