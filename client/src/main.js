@@ -1,11 +1,13 @@
-async function fetchGuests() {
-  const response = await fetch("http://localhost:8080/guests");
-  const guests = await response.json();
-  console.log(guests);
+const API_URL = "https://guest-book-gept.onrender.com/guests";
 
-  guests.forEach((entry) => {
-    renderGuest(entry);
-  });
+async function fetchGuests() {
+  try {
+    const response = await fetch(API_URL);
+    const guests = await response.json();
+    guests.forEach(renderGuest);
+  } catch (error) {
+    console.error("Error fetching guests:", error);
+  }
 }
 
 function renderGuest(entry) {
@@ -16,7 +18,7 @@ function renderGuest(entry) {
   pGuest.innerText = `Guest: ${entry.guest}`;
   pComment.innerText = `Comment: ${entry.comment}`;
 
-  div.setAttribute("class", "guest-container");
+  div.className = "guest-container";
   div.append(pGuest, pComment);
   document.getElementById("app").appendChild(div);
 }
@@ -25,27 +27,25 @@ fetchGuests();
 
 const form = document.getElementById("form");
 
-form.addEventListener("submit", async function (event) {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const beeInformation = new FormData(form);
-  const data = Object.fromEntries(beeInformation.entries());
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
 
-  console.log(data);
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
 
-  const responseFromAPI = await fetch("http://localhost:8080/guests", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+    const result = await response.json();
+    console.log("Server response:", result);
 
-  const result = await responseFromAPI.json();
-  console.log(result);
-
-  // Display the new guest immediately
-  renderGuest(data);
-
-  form.reset();
+    renderGuest(result); // Use server response
+    form.reset();
+  } catch (error) {
+    console.error("Error submitting guest:", error);
+  }
 });
