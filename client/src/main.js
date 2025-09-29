@@ -4,17 +4,21 @@ async function fetchGuests() {
   console.log(guests);
 
   guests.forEach((entry) => {
-    const div = document.createElement("div");
-    const pGuest = document.createElement("p");
-    const pComment = document.createElement("p");
-
-    pGuest.innerText = `Guest: ${entry.guest}`;
-    pComment.innerText = `Comment: ${entry.comment}`;
-
-    div.setAttribute("class", "guest-container");
-    div.append(pGuest, pComment);
-    document.body.appendChild(div);
+    renderGuest(entry);
   });
+}
+
+function renderGuest(entry) {
+  const div = document.createElement("div");
+  const pGuest = document.createElement("p");
+  const pComment = document.createElement("p");
+
+  pGuest.innerText = `Guest: ${entry.guest}`;
+  pComment.innerText = `Comment: ${entry.comment}`;
+
+  div.setAttribute("class", "guest-container");
+  div.append(pGuest, pComment);
+  document.getElementById("app").appendChild(div);
 }
 
 fetchGuests();
@@ -39,4 +43,9 @@ form.addEventListener("submit", async function (event) {
 
   const result = await responseFromAPI.json();
   console.log(result);
+
+  // Display the new guest immediately
+  renderGuest(result);
+
+  form.reset();
 });
