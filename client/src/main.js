@@ -1,5 +1,7 @@
 async function fetchGuests() {
-  const response = await fetch("http://localhost:8080/guests");
+  const response = await fetch(
+    "https://dashboard.render.com/web/srv-d3cq320gjchc739duu40"
+  );
   const guests = await response.json();
   console.log(guests);
 
