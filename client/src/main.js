@@ -1,9 +1,11 @@
-const API_URL = "https://guest-book-gept.onrender.com/guests";
-
 async function fetchGuests() {
-  const response = await fetch(API_URL);
+  const response = await fetch("http://localhost:8080/guests");
   const guests = await response.json();
-  guests.forEach(renderGuest);
+  console.log(guests);
+
+  guests.forEach((entry) => {
+    renderGuest(entry);
+  });
 }
 
 function renderGuest(entry) {
@@ -14,7 +16,7 @@ function renderGuest(entry) {
   pGuest.innerText = `Guest: ${entry.guest}`;
   pComment.innerText = `Comment: ${entry.comment}`;
 
-  div.className = "guest-container";
+  div.setAttribute("class", "guest-container");
   div.append(pGuest, pComment);
   document.getElementById("app").appendChild(div);
 }
@@ -23,21 +25,27 @@ fetchGuests();
 
 const form = document.getElementById("form");
 
-form.addEventListener("submit", async (event) => {
+form.addEventListener("submit", async function (event) {
   event.preventDefault();
 
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData.entries());
+  const beeInformation = new FormData(form);
+  const data = Object.fromEntries(beeInformation.entries());
 
-  const response = await fetch(API_URL, {
+  console.log(data);
+
+  const responseFromAPI = await fetch("http://localhost:8080/guests", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   });
 
-  const result = await response.json();
+  const result = await responseFromAPI.json();
   console.log(result);
 
-  renderGuest(data); // Show new guest instantly
+  // Display the new guest immediately
+  renderGuest(result);
+
   form.reset();
 });
