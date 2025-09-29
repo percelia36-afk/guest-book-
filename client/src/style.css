@@ -1,3 +1,21 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f5f3ee;
+  color: #2c2c2c;
+  margin: 0;
+  padding: 20px;
+}
+
+.site-header {
+  text-align: center;
+  background-color: #3e3e3e;
+  color: #f5f3ee;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -11,13 +29,15 @@ form {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-input {
+input[type="text"] {
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #b8b0a1;
   border-radius: 5px;
   background-color: #fdfdfb;
   color: #2c2c2c;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 input::placeholder {
@@ -38,4 +58,26 @@ button {
 
 button:hover {
   background-color: #b49e6f;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.guest-container {
+  border: 2px solid #cbb27c;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.guest-container p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #3e3e3e;
 }

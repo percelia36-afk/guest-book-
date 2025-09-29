@@ -41,8 +41,6 @@ form.addEventListener("submit", async (event) => {
     });
 
     const result = await response.json();
-    console.log("Server response:", result);
-
     renderGuest(result); // Use server response
     form.reset();
   } catch (error) {
