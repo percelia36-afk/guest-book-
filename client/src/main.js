@@ -18,6 +18,29 @@ async function fetchGuests() {
 }
 
 fetchGuests();
+//async function fetchGuests() {
+const response = await fetch("https://guest-book-gept.onrender.com");
+const guests = await response.json();
+console.log(guests);
+
+guests.forEach((entry) => {
+  renderGuest(entry);
+});
+
+function renderGuest(entry) {
+  const div = document.createElement("div");
+  const pGuest = document.createElement("p");
+  const pComment = document.createElement("p");
+
+  pGuest.innerText = `Guest: ${entry.guest}`;
+  pComment.innerText = `Comment: ${entry.comment}`;
+
+  div.setAttribute("class", "guest-container");
+  div.append(pGuest, pComment);
+  document.getElementById("app").appendChild(div);
+}
+
+fetchGuests();
 
 const form = document.getElementById("form");
 
@@ -29,7 +52,7 @@ form.addEventListener("submit", async function (event) {
 
   console.log(data);
 
-  const responseFromAPI = await fetch("http://localhost:8080/guests", {
+  const responseFromAPI = await fetch("https://guest-book-gept.onrender.com", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -39,4 +62,9 @@ form.addEventListener("submit", async function (event) {
 
   const result = await responseFromAPI.json();
   console.log(result);
+
+  // Display the new guest immediately
+  renderGuest(result);
+
+  form.reset();
 });
